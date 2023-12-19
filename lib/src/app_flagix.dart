@@ -29,7 +29,10 @@ class AppFlagix<P> {
     _currentRole = role;
   }
 
-  bool hasPermission(String permission) {
+  bool hasPermission(P permission) {
+    log("Checking permission: $permission");
+    log("Current role: $_currentRole");
+    log("App permissions: ${_appPermissions.roles}");
     // Check if the current role exists in the appPermissions
     if (_appPermissions.roles.containsKey(_currentRole)) {
       log("Current role: $_currentRole");

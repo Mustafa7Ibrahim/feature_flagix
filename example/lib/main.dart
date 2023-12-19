@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final AppFlagix appFlagix = AppFlagix();
 
   /// current user role
-  Roles role = Roles.user;
+  Roles role = Roles.moderator;
 
   /// Create a new instance of [FlagixModel] with the given [roles].
   FlagixModel<Roles, Flags> flagixModel = FlagixModel<Roles, Flags>(
@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    appFlagix.setCurrentRole(role.name);
+    appFlagix.setCurrentRole(role);
     // Initialize the [AppFlagix] instance with the [FlagixModel] instance.
     appFlagix.setPermissions(flagixModel);
   }
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
             value: role,
             onChanged: (Roles? value) {
               setState(() => role = value!);
-              appFlagix.setCurrentRole(role.name);
+              appFlagix.setCurrentRole(role);
             },
             items: const <DropdownMenuItem<Roles>>[
               DropdownMenuItem<Roles>(
@@ -117,9 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          FlagixWidget(
-            flag: Flags.feature1.name,
-            child: const Card(
+          const FlagixWidget(
+            flag: Flags.feature1,
+            child: Card(
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Feature 1'),
@@ -127,9 +127,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          FlagixWidget(
-            flag: Flags.feature2.name,
-            child: const Card(
+          const FlagixWidget(
+            flag: Flags.feature2,
+            child: Card(
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Feature 2'),
@@ -137,9 +137,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          FlagixWidget(
-            flag: Flags.feature3.name,
-            child: const Card(
+          const FlagixWidget(
+            flag: Flags.feature3,
+            child: Card(
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Feature 3'),
@@ -147,9 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          FlagixWidget(
-            flag: Flags.feature4.name,
-            child: const Card(
+          const FlagixWidget(
+            flag: Flags.feature4,
+            child: Card(
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Feature 4'),
