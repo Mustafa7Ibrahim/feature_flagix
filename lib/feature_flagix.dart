@@ -1,7 +1,5 @@
 library feature_flagix;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'package:feature_flagix/src/app_flagix.dart';
+export 'package:feature_flagix/src/flagix_widget.dart';
+export 'package:feature_flagix/src/flagix_models.dart';
