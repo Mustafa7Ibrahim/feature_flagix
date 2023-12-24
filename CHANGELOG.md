@@ -1,3 +1,7 @@
+## 1.0.1
+
+- fix CHANGELOG.md
+
 ## 1.0.0
 
 ### Added
