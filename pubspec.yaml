@@ -1,5 +1,5 @@
 name: feature_flagix
-description: "A new Flutter package project."
+description: "Feature Flagix is a package designed for managing feature flags in Flutter applications. It allows you to control access to specific features based on roles and permissions."
 version: 1.0.0
 homepage: https://github.com/Mustafa7Ibrahim/feature_flagix.git
 
