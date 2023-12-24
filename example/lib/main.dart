@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:example/data/fake_flags.dart';
 import 'package:feature_flagix/feature_flagix.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -17,18 +13,18 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // Create a new instance of [AppFlagix].
-  final AppFlagix appFlagix = AppFlagix();
+  final FeatureFlagix featureFlagix = FeatureFlagix();
 
-  /// Create a new instance of [FlagixModel] with the given [roles].
-  FlagixModel flagixModel = FlagixModel(
+  /// Create a new instance of [FlagixRoles] with the given [roles].
+  FlagixRoles flagixModel = FlagixRoles(
     roles: {
-      Roles.user: RoleFlagix<String>(
+      Roles.user: FlagixPermissions<String>(
         permissions: [
           Flags.feature1.name,
           Flags.feature2.name,
         ],
       ),
-      Roles.admin: RoleFlagix(
+      Roles.admin: FlagixPermissions(
         permissions: [
           Flags.feature1.name,
           Flags.feature2.name,
@@ -36,15 +32,15 @@ class _MyAppState extends State<MyApp> {
           Flags.feature4.name,
         ],
       ),
-      Roles.moderator: RoleFlagix(
+      Roles.moderator: FlagixPermissions(
         permissions: [
           Flags.feature1.name,
           Flags.feature2.name,
           Flags.feature3.name,
         ],
       ),
-      Roles.custom: RoleFlagix(
-        permissions: flags,
+      Roles.custom: FlagixPermissions(
+        permissions: customFlags,
       ),
     },
   );
@@ -52,9 +48,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    appFlagix.setCurrentRole(Roles.user);
+    featureFlagix.setCurrentRole(Roles.user);
     // Initialize the [AppFlagix] instance with the [FlagixModel] instance.
-    appFlagix.setPermissions(flagixModel);
+    featureFlagix.setPermissions(flagixModel);
   }
 
   @override
@@ -62,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Feature_flagix Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent),
         useMaterial3: true,
       ),
       home: const MyHomePage(),
@@ -95,7 +91,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   // Create a new instance of [AppFlagix].
-  final AppFlagix appFlagix = AppFlagix();
+  final FeatureFlagix featureFlagix = FeatureFlagix();
 
   /// current user role
   late Roles role;
@@ -121,13 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
           DropdownButton<Roles>(
             value: role,
             onChanged: (Roles? value) {
-              setState(() {
-                role = value!;
-                appFlagix.setCurrentRole(role);
-              });
-              log('Current role setter: $value');
-              log('Current role: $role');
-              log('Current role: ${appFlagix.currentRole}');
+              setState(() => role = value!);
+              featureFlagix.setCurrentRole(role);
             },
             items: const <DropdownMenuItem<Roles>>[
               DropdownMenuItem<Roles>(
@@ -169,6 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+/// a page to show the current feature flags
 class FlagsClass extends StatelessWidget {
   const FlagsClass({super.key});
 
@@ -181,7 +173,7 @@ class FlagsClass extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          FlagixWidget(
+          Flagix(
             flag: Flags.feature1.name,
             child: const Card(
               child: ListTile(
@@ -191,7 +183,7 @@ class FlagsClass extends StatelessWidget {
               ),
             ),
           ),
-          FlagixWidget(
+          Flagix(
             flag: Flags.feature2.name,
             child: const Card(
               child: ListTile(
@@ -201,7 +193,7 @@ class FlagsClass extends StatelessWidget {
               ),
             ),
           ),
-          FlagixWidget(
+          Flagix(
             flag: Flags.feature3.name,
             child: const Card(
               child: ListTile(
@@ -211,7 +203,7 @@ class FlagsClass extends StatelessWidget {
               ),
             ),
           ),
-          FlagixWidget(
+          Flagix(
             flag: Flags.feature4.name,
             child: const Card(
               child: ListTile(

@@ -1,20 +1,18 @@
-import 'dart:developer';
-
-import 'package:feature_flagix/src/app_flagix.dart';
+import 'package:feature_flagix/src/feature_flagix.dart';
 import 'package:flutter/material.dart';
 
 /// A widget that conditionally shows its child
 /// based on the user's role and required permission.
-class FlagixWidget<P, R> extends StatefulWidget {
-  /// Constructs a [FlagixWidget].
+class Flagix<P, R> extends StatefulWidget {
+  /// Constructs a [Flagix].
   ///
-  /// The [flagix] parameter specifies the flag
+  /// The [flag] parameter specifies the flag
   /// required to show the child widget.
   ///
   /// The [child] parameter specifies the widget to be shown if
   /// the user has the required permission.
   ///
-  const FlagixWidget({
+  const Flagix({
     required this.flag,
     required this.child,
     super.key,
@@ -27,11 +25,11 @@ class FlagixWidget<P, R> extends StatefulWidget {
   final Widget child;
 
   @override
-  State<FlagixWidget> createState() => _FlagixWidgetState<R>();
+  State<Flagix> createState() => _FlagixState<R>();
 }
 
-class _FlagixWidgetState<R> extends State<FlagixWidget> {
-  final AppFlagix _appFlagix = AppFlagix();
+class _FlagixState<R> extends State<Flagix> {
+  final FeatureFlagix _appFlagix = FeatureFlagix();
   late R role;
   late bool hasPermissionGranted;
 
@@ -44,7 +42,6 @@ class _FlagixWidgetState<R> extends State<FlagixWidget> {
 
   @override
   Widget build(BuildContext context) {
-    log('FlagixWidget: role: $role, flag: ${widget.flag}, hasPermissionGranted: $hasPermissionGranted');
     // Show the widget only if the role has the required permission
     return hasPermissionGranted ? widget.child : const SizedBox.shrink();
   }

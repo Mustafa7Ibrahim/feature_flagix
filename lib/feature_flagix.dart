@@ -1,5 +1,6 @@
 library feature_flagix;
 
-export 'package:feature_flagix/src/app_flagix.dart';
-export 'package:feature_flagix/src/flagix_widget.dart';
-export 'package:feature_flagix/src/flagix_models.dart';
+export 'package:feature_flagix/src/feature_flagix.dart';
+export 'package:feature_flagix/src/flagix.dart';
+export 'package:feature_flagix/src/models/flagix_permissions.dart';
+export 'package:feature_flagix/src/models/flagix_roles.dart';
