@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 /// A widget that conditionally shows its child
 /// based on the user's role and required permission.
-class Flagix<P, R> extends StatefulWidget {
+class Flagix extends StatefulWidget {
   /// Constructs a [Flagix].
   ///
   /// The [flag] parameter specifies the flag
@@ -19,25 +19,23 @@ class Flagix<P, R> extends StatefulWidget {
   });
 
   /// The required permission to show the child widget.
-  final P flag;
+  final dynamic flag;
 
   /// The child widget to be shown if the user has the required permission.
   final Widget child;
 
   @override
-  State<Flagix> createState() => _FlagixState<R>();
+  State<Flagix> createState() => _FlagixState();
 }
 
-class _FlagixState<R> extends State<Flagix> {
-  final FeatureFlagix _appFlagix = FeatureFlagix();
-  late R role;
+class _FlagixState extends State<Flagix> {
+  final FeatureFlagix featureFlagix = FeatureFlagix();
   late bool hasPermissionGranted;
 
   @override
   void initState() {
     super.initState();
-    role = _appFlagix.currentRole;
-    hasPermissionGranted = _appFlagix.hasPermission(widget.flag);
+    hasPermissionGranted = featureFlagix.hasPermission(widget.flag);
   }
 
   @override
