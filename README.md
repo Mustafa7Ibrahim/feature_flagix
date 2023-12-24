@@ -8,7 +8,7 @@ To use Feature Flagix in your Flutter project, add the following dependency to y
 
 ```yaml
 dependencies:
-  feature_flagix: ^1.0.0
+  feature_flagix: ^1.0.2
 ```
 
 Then, run `flutter pub get` in your terminal.
@@ -86,14 +86,26 @@ To start using Feature Flagix, follow these steps:
    featureFlagix.setCurrentRole(Roles.user);
    ```
 
-4. **Check Permissions:**
+   - Make sure to set the current role before setting the feature flags. Otherwise, the feature flags will not be set.
+   - Preferable to set the current role in the `initState()` method of your `MyApp` before any logic happened.
+
+4. **Set Flags:**
+
+   ```dart
+   // Set the feature flags for the user
+   featureFlagix.setFlags(flagixModel);
+   ```
+
+   - Make sure to set the feature flags after setting the current role. Otherwise, the Flagix() widget will throw an error.
+
+5. **Check Permissions:**
 
    ```dart
    // Check if the user has a specific permission
    bool hasPermission = featureFlagix.hasPermission(Flags.feature1.name);
    ```
 
-5. **Update UI Based on Feature Flags:**
+6. **Update UI Based on Feature Flags:**
 
    ```dart
    // Use FeatureFlagix to conditionally render UI elements
