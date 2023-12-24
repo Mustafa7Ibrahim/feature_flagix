@@ -7,12 +7,11 @@ class AppFlagix<P> {
   late P _currentRole;
 
   // Private constructor to prevent instantiation from outside the class.
-  AppFlagix._() : _currentRole = "defaultRole" as P;
+  AppFlagix._() : _currentRole = "Role" as P;
 
   // The single instance of the class.
   static AppFlagix? _instance;
 
-  // Factory constructor to provide a controlled instance.
   // Factory constructor to provide a controlled instance.
   factory AppFlagix() {
     _instance ??= AppFlagix._();

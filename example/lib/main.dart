@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:example/data/fake_flags.dart';
 import 'package:feature_flagix/feature_flagix.dart';
 import 'package:flutter/material.dart';
 
@@ -5,8 +8,54 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // Create a new instance of [AppFlagix].
+  final AppFlagix appFlagix = AppFlagix();
+
+  /// Create a new instance of [FlagixModel] with the given [roles].
+  FlagixModel flagixModel = FlagixModel(
+    roles: {
+      Roles.user: RoleFlagix<String>(
+        permissions: [
+          Flags.feature1.name,
+          Flags.feature2.name,
+        ],
+      ),
+      Roles.admin: RoleFlagix(
+        permissions: [
+          Flags.feature1.name,
+          Flags.feature2.name,
+          Flags.feature3.name,
+          Flags.feature4.name,
+        ],
+      ),
+      Roles.moderator: RoleFlagix(
+        permissions: [
+          Flags.feature1.name,
+          Flags.feature2.name,
+          Flags.feature3.name,
+        ],
+      ),
+      Roles.custom: RoleFlagix(
+        permissions: flags,
+      ),
+    },
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    appFlagix.setCurrentRole(Roles.user);
+    // Initialize the [AppFlagix] instance with the [FlagixModel] instance.
+    appFlagix.setPermissions(flagixModel);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +75,7 @@ enum Roles {
   user,
   admin,
   moderator,
+  custom,
 }
 
 enum Flags {
@@ -48,41 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
   final AppFlagix appFlagix = AppFlagix();
 
   /// current user role
-  Roles role = Roles.moderator;
-
-  /// Create a new instance of [FlagixModel] with the given [roles].
-  FlagixModel<Roles, Flags> flagixModel = FlagixModel<Roles, Flags>(
-    roles: {
-      Roles.user: RoleFlagix<Flags>(
-        permissions: [
-          Flags.feature1,
-          Flags.feature2,
-        ],
-      ),
-      Roles.admin: RoleFlagix<Flags>(
-        permissions: [
-          Flags.feature1,
-          Flags.feature2,
-          Flags.feature3,
-          Flags.feature4,
-        ],
-      ),
-      Roles.moderator: RoleFlagix<Flags>(
-        permissions: [
-          Flags.feature1,
-          Flags.feature2,
-          Flags.feature3,
-        ],
-      ),
-    },
-  );
+  late Roles role;
 
   @override
   void initState() {
     super.initState();
-    appFlagix.setCurrentRole(role);
-    // Initialize the [AppFlagix] instance with the [FlagixModel] instance.
-    appFlagix.setPermissions(flagixModel);
+    role = Roles.user;
   }
 
   @override
@@ -94,13 +115,19 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           /// dropdown button to change the current user role
           DropdownButton<Roles>(
             value: role,
             onChanged: (Roles? value) {
-              setState(() => role = value!);
-              appFlagix.setCurrentRole(role);
+              setState(() {
+                role = value!;
+                appFlagix.setCurrentRole(role);
+              });
+              log('Current role setter: $value');
+              log('Current role: $role');
+              log('Current role: ${appFlagix.currentRole}');
             },
             items: const <DropdownMenuItem<Roles>>[
               DropdownMenuItem<Roles>(
@@ -115,11 +142,48 @@ class _MyHomePageState extends State<MyHomePage> {
                 value: Roles.moderator,
                 child: Text('Moderator'),
               ),
+              DropdownMenuItem<Roles>(
+                value: Roles.custom,
+                child: Text('Custom'),
+              ),
             ],
           ),
-          const FlagixWidget(
-            flag: Flags.feature1,
-            child: Card(
+          const SizedBox(
+            height: 20,
+            width: double.infinity,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const FlagsClass(),
+                ),
+              );
+            },
+            child: const Text('Go to Flags Page'),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class FlagsClass extends StatelessWidget {
+  const FlagsClass({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('Feature_flagix'),
+      ),
+      body: ListView(
+        children: [
+          FlagixWidget(
+            flag: Flags.feature1.name,
+            child: const Card(
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Feature 1'),
@@ -127,9 +191,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          const FlagixWidget(
-            flag: Flags.feature2,
-            child: Card(
+          FlagixWidget(
+            flag: Flags.feature2.name,
+            child: const Card(
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Feature 2'),
@@ -137,9 +201,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          const FlagixWidget(
-            flag: Flags.feature3,
-            child: Card(
+          FlagixWidget(
+            flag: Flags.feature3.name,
+            child: const Card(
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Feature 3'),
@@ -147,9 +211,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          const FlagixWidget(
-            flag: Flags.feature4,
-            child: Card(
+          FlagixWidget(
+            flag: Flags.feature4.name,
+            child: const Card(
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Feature 4'),
