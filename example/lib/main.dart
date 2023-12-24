@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     featureFlagix.setCurrentRole(Roles.user);
     // Initialize the [AppFlagix] instance with the [FlagixModel] instance.
-    featureFlagix.setPermissions(flagixModel);
+    featureFlagix.setFlags(flagixModel);
   }
 
   @override
