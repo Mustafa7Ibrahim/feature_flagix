@@ -1,3 +1,7 @@
+## 1.0.2
+
+- fix feature_flagix to assert that the `roles` and `Flags` parameters are not null.
+  
 ## 1.0.1
 
 - fix CHANGELOG.md
