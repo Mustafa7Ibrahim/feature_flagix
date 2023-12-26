@@ -121,6 +121,28 @@ To start using Feature Flagix, follow these steps:
    ),
    ```
 
+   ```dart
+   // Use FeatureFlagix to conditionally render UI elements
+   Flagix(
+     flag: Flags.feature1.name,
+     // Use replace to replace the child widget when the user does not have the required permission (optional)
+      replace: const Card(
+        child: ListTile(
+          leading: Icon(Icons.person),
+          title: Text('Feature 1'),
+          subtitle: Text('This is Feature 1'),
+        ),
+      ),
+     child: const Card(
+       child: ListTile(
+         leading: Icon(Icons.person),
+         title: Text('Feature 1'),
+         subtitle: Text('This is Feature 1'),
+       ),
+     ),
+   ),
+   ```
+
 ## Example
 
 See the provided example in the `example/` directory for a more detailed implementation.

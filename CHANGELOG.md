@@ -1,3 +1,7 @@
+## 1.0.3
+
+- add replace widget in flagix builder to allow for custom widgets to be used when a user does not have the required permissions.
+
 ## 1.0.2
 
 - fix feature_flagix to assert that the `roles` and `Flags` parameters are not null.

@@ -15,6 +15,7 @@ class Flagix extends StatefulWidget {
   const Flagix({
     required this.flag,
     required this.child,
+    this.replace,
     super.key,
   });
 
@@ -23,6 +24,10 @@ class Flagix extends StatefulWidget {
 
   /// The child widget to be shown if the user has the required permission.
   final Widget child;
+
+  /// child is the flag is not granted
+  /// it is optional
+  final Widget? replace;
 
   @override
   State<Flagix> createState() => _FlagixState();
@@ -41,6 +46,8 @@ class _FlagixState extends State<Flagix> {
   @override
   Widget build(BuildContext context) {
     // Show the widget only if the role has the required permission
-    return hasPermissionGranted ? widget.child : const SizedBox.shrink();
+    return hasPermissionGranted
+        ? widget.child
+        : widget.replace ?? const SizedBox.shrink();
   }
 }
